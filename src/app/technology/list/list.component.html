@@ -1,0 +1,239 @@
+<nav class="navbar navbar-light bg-light">
+  <a routerLink="/trangchu" class="navbar-brand"><img src="../../../assets/anhnen/a56.png" width="250px" height="50px"></a>
+  <a class="navbar-brand"></a>
+<!--  <form class="form-inline">-->
+    <div *ngIf="info.token">
+      <i class="fas fa-user-circle" style="font-size: 18px"></i><b>{{info.username}}</b>
+      <button style="margin-left: 5px; margin-right: 30px" class="btn badge-secondary my-2 my-sm-0" (click)="logout()"
+              type="submit"><i class="fas fa-sign-out-alt" style="font-size: 20px"></i>Đăng xuất
+      </button>
+    </div>
+<!--  </form>-->
+</nav>
+
+
+<h1 style="text-align: center">Danh Sách Công Nghệ</h1>
+<div class="container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th colspan="5">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-plus-square" style="font-size: 20px">
+        </i>Thêm công nghệ</button>
+      </th>
+    </tr>
+
+    <tr>
+      <th scope="col" style="text-align: center">#</th>
+      <th scope="col" style="text-align: center">Name</th>
+      <th scope="col" colspan="3" style="text-align: center">Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let tech of technology; index as i ">
+      <th scope="row">{{i +1}}</th>
+      <td>{{tech.name}}</td>
+      <td><button type="button" class="btn btn-primary" (click)="editId(tech.id)" data-toggle="modal" data-target="#exampleModalCenter">
+        <i class="fas fa-user-edit"
+           style="font-size: 20px"></i>Edit
+      </button></td>
+      <td>    <button type="button" class="btn btn-dark" (click)="getIdDelete(tech.id)" data-toggle="modal" data-target="#exampleModalMessageDelete">
+        <i class="fas fa-trash-alt"
+           style="font-size: 20px"></i>Delete
+      </button></td>
+      <td>
+
+        <button type="button" class="btn btn-light" (click)="viewTech(tech.id)" data-toggle="modal" data-target="#exampleModalMessageDelete1">
+          <i class="fas fa-calendar-week" style="font-size: 20px"></i>View
+        </button>
+
+
+       </td>
+    </tr>
+    </tbody>
+  </table>
+  <div [hidden]="messageDeleteTrue">
+    <div class="alert alert-success" role="alert">
+      {{messageDelete}}
+    </div>
+  </div>
+  <div [hidden]="messageDeleteFalse">
+    <div class="alert alert-danger" role="alert">
+      {{messageDelete}}
+    </div>
+  </div>
+<button class="btn btn-primary" routerLink="/company/list"><i class="fas fa-sign-out-alt" style="font-size: 20px"></i>Quản lý công ty</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content ">
+      <form [formGroup]="formadd" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label><h3>Thêm mới tên công nghệ</h3></label>
+          <input type="text" class="form-control" placeholder="Enter Name" formControlName="name">
+        </div>
+        <div *ngIf="formadd.controls.name?.errors?.required && formadd.controls.name?.touched">
+          <span style="color: red">Không được để trống~~</span>
+        </div>
+        <div *ngIf="formadd.controls.name?.errors?.minlength">
+          <span style="color: red">It nhất 4 ký tự~~</span>
+        </div>
+        <div *ngIf="messageSuccess">
+          <div class="alert alert-success" role="alert">
+            {{messageSuccess}}
+          </div>
+        </div>
+
+        <div *ngIf="mesageError">
+          <div class="alert alert-danger" role="alert">
+            {{mesageError}}
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Thêm mới</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--// Form Sua-->
+<!-- Modal -->
+<div *ngIf="technologyEdit">
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Sửa thông tin công nghệ</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formEdit" (ngSubmit)="onSubmitEdit()">
+            <div class="form-group">
+              <label><h3>Sửa thông tin công nghệ</h3></label>
+
+              <input  type="text" [(ngModel)]="technologyEdit.name" class="form-control" placeholder="Enter Name" formControlName="name">
+            </div>
+            <div *ngIf="formEdit.controls.name?.errors?.required && formEdit.controls.name?.touched">
+              <span style="color: red">Không được để trống~~</span>
+            </div>
+            <div *ngIf="formEdit.controls.name?.errors?.minlength">
+              <span style="color: red">It nhất 4 ký tự~~</span>
+            </div>
+
+
+            <div [hidden]="messageEditTrue">
+              <div class="alert alert-success" role="alert">
+                {{messageEdit}}
+              </div>
+            </div>
+            <div [hidden]="messageEditFalse">
+              <div class="alert alert-danger" role="alert">
+                {{messageEdit}}
+              </div>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-success">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Sửa thông tin</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- form message Thong bao-->
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalMessageDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelMessageDelete" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelMessageDelete">Thông báo !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Bạn có chắc chắn muốn xóa ?</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="deleteById()" data-dismiss="modal" class="btn btn-primary">Xoa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--view-->
+
+<div class="modal fade" id="exampleModalMessageDelete1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelMessageDelete" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelMessageDelete1">Thông tin chi tiết !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Chi tiết tên công nghệ: {{techView.name}}</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+    </div>
+  </div>
+</div>

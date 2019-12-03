@@ -1,0 +1,141 @@
+<!--<button type="button" class="btn btn-warning" routerLink="/company/list">Về trang danh sách</button>-->
+<!--<div class="container">-->
+<!--  <div *ngIf="messageAddSuccess">-->
+<!--    <span style="color:red ">{{messageAddSuccess}}</span>-->
+<!--  </div>-->
+<!--  <form [formGroup]="formCompany" (ngSubmit)="onSubmit()" enctype="multipart/form-data">-->
+<!--    <div class="form-group">-->
+<!--      <label><h3>Company Name</h3></label>-->
+<!--      <input type="text" class="form-control col-6" placeholder="Enter companyName" formControlName="companyName">-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Short Name</h3></label>-->
+<!--      <input type="text" class="form-control col-6" placeholder="Enter shortname" formControlName="shortname">-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Address</h3></label>-->
+<!--      <input type="text" class="form-control col-6" placeholder="Enter address" formControlName="address">-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Website</h3></label>-->
+<!--      <input type="text" class="form-control col-6" placeholder="Enter website" formControlName="website">-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Phonenumber</h3></label>-->
+<!--      <input type="text" class="form-control col-6"   placeholder="Enter phonenumber" formControlName="phonenumber">-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Email</h3></label>-->
+<!--      <input type="text" class="form-control col-6" name="email" placeholder="Enter Email" formControlName="email">-->
+<!--    </div>-->
+
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Introductory</h3></label>-->
+<!--      <textarea class="form-control" rows="5" cols="5" name="introductoryinformation" formControlName="introductoryinformation"></textarea>-->
+<!--    </div>-->
+
+
+
+
+
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Relationship</h3></label>-->
+<!--      <div *ngFor="let rela of relationship">-->
+<!--            <div class="form-check">-->
+<!--            <input class="form-check-input" (change)="onCheckboxChangeRelationship(rela)"  type="radio" name="relationship" formControlName="relationship"   value="{{rela.id}}">-->
+<!--            <label class="form-check-label" >-->
+<!--              {{rela.name}}-->
+<!--            </label>-->
+<!--          </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Specialize</h3></label>-->
+<!--      <div *ngFor="let spec of specialize">-->
+<!--        <div class="form-check">-->
+<!--          <input class="form-check-input" value="{{spec.id}}" type="checkbox"  (change)="onCheckboxChangeSpecialize($event,spec)"  name="specialize" formControlName="specialize"  >-->
+<!--          <label class="form-check-label">{{spec.name}}</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Language</h3></label>-->
+<!--      <div *ngFor="let lang of language">-->
+<!--        <div class="form-check form-check-inline">-->
+<!--          <input class="form-check-input"  value="{{lang.id}}" type="checkbox"  (change)="onCheckboxChangeLanguage($event,lang)"   name="language"    formControlName="language"  >-->
+<!--          <label class="form-check-label">{{lang.name}}</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Technology</h3></label>-->
+<!--      <div *ngFor="let tech of technology">-->
+<!--        <div class="form-check form-check-inline">-->
+<!--          <input class="form-check-input" value="{{tech.id}}" type="checkbox" (change)="onCheckboxChange($event,tech)" name="technology"  formControlName="technology" >-->
+<!--          <label>{{tech.name}}</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Market</h3></label>-->
+<!--      <div *ngFor="let mar of market">-->
+<!--        <div class="form-check form-check-inline">-->
+<!--          <input class="form-check-input"   value="{{mar.id}}" type="checkbox"  (change)="onCheckboxChangeMarket($event,mar)"   name="market" formControlName="market" >-->
+<!--          <label class="form-check-label">{{mar.name}}</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+
+
+
+
+
+<!--    <div class="form-group">-->
+<!--      <label><h3>Note</h3></label>-->
+<!--      <textarea class="form-control" rows="5" cols="5" name="note" formControlName="note"></textarea>-->
+<!--    </div>-->
+
+
+
+
+<!--    <div class="form-group">-->
+<!--      <label>LogoCompany</label><br/>-->
+<!--      <input type="file"  id="avatar" accept="image/*" (change)="selectFile($event)">-->
+<!--    </div>-->
+
+
+<!--    <div class="form-group">-->
+<!--      <button type="submit" class="btn btn-success">-->
+<!--        &lt;!&ndash;        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>&ndash;&gt;-->
+<!--        Thêm mới-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;{{formCompany.value | json}}&ndash;&gt;-->
+<!--&lt;!&ndash;{{imageLogo | json}}&ndash;&gt;-->

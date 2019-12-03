@@ -1,0 +1,343 @@
+<nav class="navbar navbar-light bg-light">
+  <a routerLink="/trangchu" class="navbar-brand"><img src="../../../assets/anhnen/a56.png" width="250px" height="50px"></a>
+  <form class="form-inline">
+    <div *ngIf="info.token">
+      <i class="fas fa-user-circle" style="font-size: 18px"></i><b>{{info.username}}</b>
+      <button style="margin-left: 5px; margin-right: 30px" class="btn badge-secondary my-2 my-sm-0" (click)="logout()"
+              type="submit"><i class="fas fa-sign-out-alt" style="font-size: 20px"></i>Đăng xuất
+      </button>
+    </div>
+  </form>
+</nav>
+<h1 style="text-align: center">Danh Sách Công Ty</h1>
+<div class="row">
+  <span [hidden]="showAndHide">
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+  <i class="fas fa-plus-square" style="font-size: 20px">Thêm công ty
+  </i>
+</button>
+  <button type="button" class="btn btn-info" routerLink="/technology/list" style="margin-left: 10px; margin-right: 10px"><i class="fas fa-tasks" style="font-size: 20px"></i>Quản lý các công nghệ</button>
+  <button type="button" class="btn btn-outline-primary" routerLink="/signup"><i class="fas fa-user-plus" style="font-size: 20px"></i>Thêm tài khoản người dùng</button>
+  <button type="button" class="btn btn-info" routerLink="/tags/list" style="margin-left: 10px; margin-right: 10px"><i class="fas fa-tasks" style="font-size: 20px"></i>Quản lý các Tag</button>
+
+</span>
+</div>
+
+
+
+<!--tim kiem-->
+<!--<input [(ngModel)]="companyName" (input)="search()" class="form-control mr-sm-2 col-4" type="text" style="margin-top: 10px;margin-bottom: 20px; float: right" placeholder="Nhập tên công ty cần tìm kiếm" aria-label="Search">-->
+<div [formGroup]="formSearch" >
+  <div style="margin-left: 10px;margin-bottom: 10px; margin-top: 10px" class="form-row">
+    <div  class="form-group col-md-4" style="float: left">
+      <input style="float: left" type="text" class="form-control" placeholder="Enter companyName" formControlName="companyName">
+    </div>
+  </div>
+
+    <div class="form-row">
+      <label><h5>Relationship</h5></label>
+      <div *ngFor="let rela of relationship">
+        <div class="form-check">
+          <input class="form-check-input" (change)="onCheckboxSearchRelationship(rela)" type="radio"
+                 name="relationship" formControlName="relationship" value="{{rela.id}}">
+          <label class="form-check-label">
+            {{rela.name}}
+          </label>
+        </div>
+      </div>
+    </div>
+  <button (click)="onSearch()" type="submit" class="btn btn-outline-primary">
+    Tìm kiếm
+  </button>
+  </div>
+<div *ngIf="searchMessage">
+  <span style="color: #ff1325">{{searchMessage}}</span>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Tên công ty</th>
+    <th scope="col">Tên viết tắt</th>
+    <th scope="col">Địa chỉ</th>
+    <th scope="col">Website</th>
+    <th scope="col">Số điện thoại</th>
+    <th scope="col">Email</th>
+    <th scope="col">Logo công ty</th>
+    <th [hidden]="showAndHide" scope="col">Sửa thông tin</th>
+    <th  [hidden]="showAndHide" scope="col">Xóa công ty</th>
+    <th scope="col">Chi tiết công ty</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let com of listCompany | paginate: {itemsPerPage: 4, currentPage: p}">
+    <th scope="row">{{com.id}}</th>
+    <td>{{com.companyName}}</td>
+    <td>{{com.shortname}}</td>
+    <td>{{com.address}}</td>
+    <td>{{com.website}}</td>
+    <td>{{com.phonenumber}}</td>
+    <td>{{com.email}}</td>
+    <span *ngIf="com.companylogo">
+      <td><img  width="80px" src='http://localhost:8080/logo/{{com.companylogo}}'></td>
+    </span>
+    <td [hidden]="showAndHide">
+        <button type="submit" class="btn btn-primary" routerLink="/company/edit/{{com.id}}"><i class="fas fa-user-edit"
+                                                                                               style="font-size: 20px"></i>Edit
+        </button>
+    </td>
+    <td [hidden]="showAndHide">
+        <button type="button" class="btn btn-dark" (click)="getIdDelete(com.id)" data-toggle="modal" data-target="#exampleModalMessageDelete">
+          <i class="fas fa-trash-alt"
+             style="font-size: 20px"></i>Delete
+        </button>
+    </td>
+      <td>
+        <button type="submit" class="btn btn-light" routerLink="/company/view/{{com.id}}"><i
+          class="fas fa-calendar-week"
+          style="font-size: 20px"></i>View
+        </button>
+      </td>
+  </tr>
+  </tbody>
+</table>
+<pagination-controls class="myPagination"
+                     previousLabel="previous"
+                     nextLabel="next"
+                     (pageChange)="p = $event" maxSize="3">
+</pagination-controls>
+
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thêm thông tin công ty</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formCompany" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+          <div class="form-row">
+            <div class="form-group col-md-6" style="float: left">
+              <label><h3>Company Name</h3></label>
+              <input type="text" class="form-control" placeholder="Enter companyName" formControlName="companyName">
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label><h3>Short Name</h3></label>
+              <input type="text" class="form-control" placeholder="Enter shortname" formControlName="shortname">
+            </div>
+          </div>
+
+
+
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label><h3>Address</h3></label>
+              <input type="text" class="form-control " placeholder="Enter address" formControlName="address">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label><h3>Website</h3></label>
+              <input type="text" class="form-control " placeholder="Enter website" formControlName="website">
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label><h3>Phonenumber</h3></label>
+              <input type="text" class="form-control" placeholder="Enter phonenumber" formControlName="phonenumber">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label><h3>Email</h3></label>
+              <input type="text" class="form-control" name="email" placeholder="Enter Email" formControlName="email">
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label><h3>Introductory</h3></label>
+              <textarea class="form-control" rows="5" cols="5" name="introductoryinformation"
+                        formControlName="introductoryinformation"></textarea>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label><h3>Relationship</h3></label>
+            <div *ngFor="let rela of relationship">
+              <div class="form-check">
+                <input class="form-check-input" (change)="onCheckboxChangeRelationship(rela)" type="radio"
+                       name="relationship" formControlName="relationship" value="{{rela.id}}">
+                <label class="form-check-label">
+                  {{rela.name}}
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label><h3>Specialize</h3></label>
+            <div *ngFor="let spec of specialize">
+              <div class="form-check">
+                <input class="form-check-input" value="{{spec.id}}" type="checkbox"
+                       (change)="onCheckboxChangeSpecialize($event,spec)" name="specialize"
+                       formControlName="specialize">
+                <label class="form-check-label">{{spec.name}}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><h3>Language</h3></label>
+            <div *ngFor="let lang of language">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" value="{{lang.id}}" type="checkbox"
+                       (change)="onCheckboxChangeLanguage($event,lang)" name="language" formControlName="language">
+                <label class="form-check-label">{{lang.name}}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><h3>Technology</h3></label>
+            <div *ngFor="let tech of technology">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" value="{{tech.id}}" type="checkbox"
+                       (change)="onCheckboxChange($event,tech)" name="technology" formControlName="technology">
+                <label>{{tech.name}}</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label><h3>Market</h3></label>
+            <div *ngFor="let mar of market">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" value="{{mar.id}}" type="checkbox"
+                       (change)="onCheckboxChangeMarket($event,mar)" name="market" formControlName="market">
+                <label class="form-check-label">{{mar.name}}</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label><h3>Tag</h3></label>
+            <div *ngFor="let t of tag">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" value="{{t.id}}" type="checkbox"
+                       (change)="onCheckboxChangeTag($event,t)" name="tag" formControlName="tag">
+                <label class="form-check-label">{{t.name}}</label>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <label><h3>Note</h3></label>
+            <textarea class="form-control" rows="5" cols="5" name="note" formControlName="note"></textarea>
+          </div>
+
+
+          <div class="form-group">
+            <label>LogoCompany</label><br/>
+            <input type="file" id="avatar"  accept="image/*" (change)="selectFile($event)">
+          </div>
+
+
+          <div class="form-group">
+            <label>ArrayImg</label><br/>
+            <input type="file" id="img" multiple  accept="image/*" (change)="selectArrayFile($event)">
+          </div>
+
+          <div *ngIf="messageAddSuccess">
+            <div class="alert alert-success" role="alert">
+              {{messageAddSuccess}}
+            </div>
+          </div>
+          <div *ngIf="messageError">
+            <div class="alert alert-danger" role="alert">
+              {{messageError}}
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success">
+            Thêm mới
+          </button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- form message Thong bao-->
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalMessageDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelMessageDelete" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelMessageDelete">Thông báo !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Bạn có chắc chắn muốn xóa ?</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="changeActive()" data-dismiss="modal" class="btn btn-primary">Xoa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!--<div *ngIf="listCompa">-->
+<!--<div *ngFor="let list of listCompa">-->
+<!--  {{list.}}-->
+<!--</div>-->
+<!--</div>-->
+
+
+
+
+
+
+

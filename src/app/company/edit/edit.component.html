@@ -1,0 +1,235 @@
+
+
+
+
+
+
+
+
+<div class="container">
+  <h1 style="text-align: center">Sửa thông tin công ty</h1><br><br>
+  <div *ngIf="company">
+    <form [formGroup]="formCompany" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Company Name</h3></label>
+          <input type="text" class="form-control " placeholder="Enter companyName" [(ngModel)]="company.companyName"
+                 formControlName="companyName">
+        </div>
+        <div class="col">
+          <label><h3>Short Name</h3></label>
+          <input type="text" class="form-control " placeholder="Enter shortname" [(ngModel)]="company.shortname"
+                 formControlName="shortname">
+        </div>
+
+      </div>
+
+
+
+
+
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Address</h3></label>
+          <input type="text" class="form-control " placeholder="Enter address" [(ngModel)]="company.address"
+                 formControlName="address">
+        </div>
+        <div class="col">
+          <label><h3>Website</h3></label>
+          <input type="text" class="form-control " placeholder="Enter website" [(ngModel)]="company.website"
+                 formControlName="website">
+        </div>
+      </div>
+
+
+
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Phonenumber</h3></label>
+          <input type="text" class="form-control " placeholder="Enter phonenumber" [(ngModel)]="company.phonenumber"
+                 formControlName="phonenumber">
+        </div>
+        <div class="col">
+          <label><h3>Email</h3></label>
+          <input type="text" class="form-control " name="email" placeholder="Enter Email" [(ngModel)]="company.email"
+                 formControlName="email">
+        </div>
+
+      </div>
+
+
+
+
+
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Introductory</h3></label>
+          <textarea class="form-control" rows="5" cols="5" name="introductoryinformation"
+                    [(ngModel)]="company.introductoryinformation" formControlName="introductoryinformation"></textarea>
+        </div>
+      </div>
+
+      <!-- -----------------------------------    Relationship--------------------------------->
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Relationship</h3></label>
+          <div *ngFor="let rela of Arrayrelationship">
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="relationship" formControlName="relationship"
+                     [checked]="sosanhRela(rela)"
+                     value="{{rela.name}}" (change)="onCheckboxChangeRelationship(rela)">
+              <label class="form-check-label">
+                {{rela.name}}
+              </label>
+            </div>
+
+          </div>
+        </div>
+        <div class="col">
+          <label><h3>Specialize</h3></label>
+          <div *ngFor="let spec of Arrayspecialize">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" value="{{spec.id}}"
+                     [checked]="sosanhSpec(spec)" type="checkbox" name="specialize"
+                     formControlName="specialize"
+                     (change)="onCheckboxChangeSpecialize($event,spec)"
+              >
+              <label>{{spec.name}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- -----------------------------------    Relationship--------------------------------->
+
+
+      <!-- -----------------------------------    Specialize--------------------------------->
+
+      <!-- -----------------------------------    Specialize--------------------------------->
+
+      <!--    -->
+
+      <!-- -----------------------------------    Language--------------------------------->
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Language</h3></label>
+          <div *ngFor="let lang of Arraylanguage">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" value="{{lang.id}}"
+                     [checked]="sosanhLang(lang)" type="checkbox" name="language"
+                     formControlName="language"
+                     (change)="onCheckboxChangeLanguage($event,lang)"
+              >
+              <label>{{lang.name}}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <label><h3>Technology</h3></label>
+          <div *ngFor="let tec of Arraytechnology">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" value="{{tec.id}}"
+                     [checked]="sosanhTech(tec)" type="checkbox" name="technology"
+                     formControlName="technology"
+                     (change)="onCheckboxChangeTechnology($event,tec)"
+              >
+              <label>{{tec.name}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- -----------------------------------    Language--------------------------------->
+
+
+      <!-- -----------------------------------    Technology--------------------------------->
+
+      <!-- -----------------------------------    Technology--------------------------------->
+
+
+      <!-- -----------------------------------    Market--------------------------------->
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Market</h3></label>
+          <div *ngFor="let mar of Arraymarket">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" value="{{mar.id}}"
+                     [checked]="sosanhMar(mar)" type="checkbox" name="market"
+                     formControlName="market"
+                     (change)="onCheckboxChangeMarket($event,mar)"
+              >
+              <label>{{mar.name}}</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col">
+          <label><h3>Tag</h3></label>
+          <div *ngFor="let t of Arraytags">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" value="{{t.id}}"
+                     [checked]="sosanhTag(t)" type="checkbox" name="tags"
+                     formControlName="tags"
+                     (change)="onCheckboxChangeTag($event,t)"
+              >
+              <label>{{t.name}}</label>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <!-- -----------------------------------    Market--------------------------------->
+
+      <div class="form-row">
+        <div class="col">
+          <label><h3>Note</h3></label>
+          <textarea class="form-control" rows="5" cols="5" name="note" [(ngModel)]="company.note"
+                    formControlName="note"></textarea>
+        </div>
+      </div>
+
+      <div class="col">
+        <label><h3>Logo</h3></label><br/>
+        <div *ngIf="company.companylogo">
+          <img width="80px" src='http://localhost:8080/images/logo/{{company.companylogo}}'>
+        </div>
+        <input type="file" id="companyName" (change)="selectFile($event)">
+      </div>
+
+
+      <div class="rows">
+        <div class="form-group">
+          <label>ArrayImg</label><br/>
+          <div *ngFor="let avatar of company.companyavatar">
+            <img width="80px" src='http://localhost:8080/images/arrImg/{{avatar}}' >
+          </div>
+          <input type="file" id="img" multiple  accept="image/*" (change)="selectArrayFile($event)">
+        </div>
+      </div>
+
+
+
+      <div [hidden]="showMessageTrue">
+        <div class="alert alert-success" role="alert">
+                   {{message}}
+        </div>
+      </div>
+      <div [hidden]="showMessageFalse">
+        <div class="alert alert-danger" role="alert">
+        <span style="color: red">{{message1}}</span>
+        </div>
+      </div>
+      <div style="margin-top: 50px" class="form-group">
+        <button type="submit" class="btn btn-success">
+          <!--        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>-->
+          <i class="fas fa-user-edit"
+             style="font-size: 20px"></i>Cập nhật
+        </button>
+        <button style="margin-left: 980px" class="btn btn-outline-primary" routerLink="/company/list"><i class="fas fa-sign-out-alt" style="font-size: 20px"></i>Quay về list</button>
+      </div>
+    </form>
+  </div>
+</div>
+
